@@ -21,7 +21,8 @@ export default function TabTwoScreen() {
         />
       }
     >
-      <ThemedView style={styles.titleContainer}>
+      <ThemedView>
+        <Text className="text-red-500">BASBSBAS</Text>
         <ThemedText type="title">Explore</ThemedText>
       </ThemedView>
       <ThemedText>
