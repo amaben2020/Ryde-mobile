@@ -7,7 +7,7 @@ import { icons } from '@/constants';
 const RideCard = ({ item }: { item: Ride }) => {
   return (
     <View className="p-4 rounded-lg bg-white shadow-sm shadow-neutral-300">
-      <View className="flex flex-row gap-x-10 items-center border w-full py-4">
+      <View className="flex flex-row gap-x-10 items-center w-full py-4">
         <Image
           source={{
             uri: `https://maps.geoapify.com/v1/staticmap?style=osm-bright&width=600&height=400&center=lonlat:${item.destination_longitude},${item.destination_latitude}&zoom=14&apiKey=${process.env.EXPO_PUBLIC_GEOAPIFY_API_KEY}`,
@@ -37,7 +37,25 @@ const RideCard = ({ item }: { item: Ride }) => {
         </View>
       </View>
 
-      <View></View>
+      <View className="rounded-[10px] bg-general-500 p-6 flex flex-col  ">
+        <View className="flex flex-row justify-between items-center border-white border-b pb-4">
+          <Text className="text-lg font-semibold font-Jakarta text-gray-500 text-[13px]">
+            Date & Time
+          </Text>
+          <Text className="text-lg font-semibold font-JakartaSemiBold text-[13px]">
+            16 July 2023, 10:30 PM
+          </Text>
+        </View>
+
+        <View className="flex flex-row justify-between items-center border-white border-b py-5">
+          <Text className="text-lg font-semibold font-Jakarta text-gray-500 text-[13px]">
+            Date & Time
+          </Text>
+          <Text className="text-lg font-semibold font-JakartaSemiBold text-[13px]">
+            16 July 2023, 10:30 PM
+          </Text>
+        </View>
+      </View>
     </View>
   );
 };
