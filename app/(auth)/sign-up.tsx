@@ -6,6 +6,7 @@ import CustomButton from '@/components/CustomButton';
 import { useSignUp } from '@clerk/clerk-expo';
 import { useRouter } from 'expo-router';
 import ReactNativeModal from 'react-native-modal';
+import { fetchAPI } from '@/lib/fetch';
 
 const Signup = () => {
   const [form, setForm] = useState({
@@ -57,6 +58,17 @@ const Signup = () => {
       if (completeSignUp.status === 'complete') {
         await setActive({ session: completeSignUp.createdSessionId });
         setVerification({ ...verification, state: 'success' });
+
+        await fetchAPI('/user', {
+          method: 'POST',
+          body: JSON.stringify({
+            clerkId: completeSignUp.createdUserId,
+            name: form.name,
+            email: form.email,
+          }),
+        });
+
+        // after all is said and done
         setShowSuccessModal(true);
       }
     } catch (err: any) {
