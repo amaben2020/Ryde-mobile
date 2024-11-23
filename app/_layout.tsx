@@ -17,10 +17,10 @@ export default function RootLayout() {
 
   return (
     <Stack>
-      <Stack.Screen name="index" />
-      <Stack.Screen name="(tabs)" />
-      <Stack.Screen name="(auth)" />
-      <Stack.Screen name="+not-found" />
+      <Stack.Screen options={{ headerShown: false }} name="index" />
+      <Stack.Screen options={{ headerShown: false }} name="(tabs)" />
+      <Stack.Screen options={{ headerShown: false }} name="(auth)" />
+      <Stack.Screen options={{ headerShown: false }} name="+not-found" />
     </Stack>
   );
 }
