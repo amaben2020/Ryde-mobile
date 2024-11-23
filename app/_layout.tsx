@@ -30,7 +30,7 @@ export default function RootLayout() {
       <ClerkLoaded>
         <Stack>
           <Stack.Screen options={{ headerShown: false }} name="index" />
-          <Stack.Screen options={{ headerShown: false }} name="(tabs)" />
+          <Stack.Screen options={{ headerShown: false }} name="(root)" />
           <Stack.Screen options={{ headerShown: false }} name="(auth)" />
           <Stack.Screen options={{ headerShown: false }} name="+not-found" />
         </Stack>
