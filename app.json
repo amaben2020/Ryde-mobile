@@ -29,6 +29,9 @@
     },
     "plugins": [
       "expo-router",
+      {
+        "origin": "https://ryde.com/"
+      },
       [
         "expo-splash-screen",
         {
