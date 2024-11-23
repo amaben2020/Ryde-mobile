@@ -46,7 +46,7 @@ const SignIn = () => {
         <Image source={images.signUpCar} className="z-0 w-full h-[250px]" />
 
         <Text className="text-2xl text-black font-JakartaSemiBold px-3">
-          Sign in to your account
+          Welcome 👋🏾
         </Text>
       </View>
       <View className="p-5 text-black">
@@ -102,7 +102,9 @@ const SignIn = () => {
             source={images.check}
             className="w-[110px] h-[110px] mx-auto my-5"
           />
-          <Text className="text-3xl font-JakartaBold text-center">Success</Text>
+          <Text className="text-3xl font-JakartaBold text-center">
+            Login Success ✌🏾
+          </Text>
 
           <Text className="text-base text-gray-400 font-Jakarta text-center mt-2">
             You have successfully logged in
