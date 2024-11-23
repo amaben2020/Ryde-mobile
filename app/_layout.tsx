@@ -1,7 +1,17 @@
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import '../global.css';
 import { useFonts } from 'expo-font';
+import { ClerkProvider, ClerkLoaded } from '@clerk/clerk-expo';
+import { tokenCache } from '@/lib/auth';
+import '../global.css';
+
+const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!;
+
+if (!publishableKey) {
+  throw new Error(
+    'Missing Publishable Key. Please set EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY in your .env'
+  );
+}
 
 export default function RootLayout() {
   SplashScreen.preventAutoHideAsync();
@@ -16,11 +26,15 @@ export default function RootLayout() {
   });
 
   return (
-    <Stack>
-      <Stack.Screen options={{ headerShown: false }} name="index" />
-      <Stack.Screen options={{ headerShown: false }} name="(tabs)" />
-      <Stack.Screen options={{ headerShown: false }} name="(auth)" />
-      <Stack.Screen options={{ headerShown: false }} name="+not-found" />
-    </Stack>
+    <ClerkProvider publishableKey={publishableKey} tokenCache={tokenCache}>
+      <ClerkLoaded>
+        <Stack>
+          <Stack.Screen options={{ headerShown: false }} name="index" />
+          <Stack.Screen options={{ headerShown: false }} name="(tabs)" />
+          <Stack.Screen options={{ headerShown: false }} name="(auth)" />
+          <Stack.Screen options={{ headerShown: false }} name="+not-found" />
+        </Stack>
+      </ClerkLoaded>
+    </ClerkProvider>
   );
 }
