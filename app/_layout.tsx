@@ -18,6 +18,8 @@ export default function RootLayout() {
   return (
     <Stack>
       <Stack.Screen name="index" />
+      <Stack.Screen name="(tabs)" />
+      <Stack.Screen name="(auth)" />
       <Stack.Screen name="+not-found" />
     </Stack>
   );
