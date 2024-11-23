@@ -1,11 +1,14 @@
 import { View, Text, TouchableOpacity } from 'react-native';
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import Swiper from 'react-native-swiper';
 
 const Welcome = () => {
   const router = useRouter();
+  const swiperRef = useRef<Swiper>(null);
+  const [activeIndex, setActiveIndex] = useState<number | undefined>(undefined);
+
   return (
     <SafeAreaView className="flex h-full items-center justify-between">
       {/* TODO: move to skip component that accepts a route link */}
@@ -16,7 +19,19 @@ const Welcome = () => {
         <Text className="text-black font-JakartaBold font-medium">Skip</Text>
       </TouchableOpacity>
 
-      <Swiper loop={false}>ok</Swiper>
+      <Swiper
+        ref={swiperRef}
+        loop={false}
+        dot={
+          <View className="w-[32px] mx-1 bg-[#e2e8f0] h-[4px] rounded-full" />
+        }
+        activeDot={
+          <View className="w-[32px] mx-1 bg-[#0286ff] h-[4px] rounded-full" />
+        }
+        onIndexChanged={(index) => setActiveIndex(index)}
+      >
+        {/* [{title: ""}] */}
+      </Swiper>
     </SafeAreaView>
   );
 };
