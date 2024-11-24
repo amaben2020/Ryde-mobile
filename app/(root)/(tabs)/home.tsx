@@ -5,12 +5,15 @@ import {
   Image,
   ActivityIndicator,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { icons, images } from '../../../constants/index';
 import RideCard from '@/components/RideCard';
 import { useAuth, useUser } from '@clerk/clerk-expo';
+import GoogleTextInput from '@/components/GoogleTextInput';
+import Map from '@/components/Map';
 
 // basically your ride info from, to, driver, amount paid
 const rides = [
@@ -123,6 +126,15 @@ const rides = [
 const Home = () => {
   const loading = true;
   const { user } = useUser();
+
+  const handleSignOut = () => {
+    Alert.alert('Clicked');
+  };
+
+  const handleDestinationPress = (data) => {
+    console.log(data);
+  };
+
   return (
     <SafeAreaView className="bg-general-500">
       <FlatList
@@ -155,9 +167,23 @@ const Home = () => {
                   user?.emailAddresses[0].emailAddress.split('@')[0]}{' '}
               </Text>
 
-              <TouchableOpacity className="w-12 h-12 rounded-full p-5 bg-white flex flex-row items-center justify-center">
+              <TouchableOpacity
+                onPress={handleSignOut}
+                className="w-12 h-12 rounded-full p-5 bg-white flex flex-row items-center justify-center"
+              >
                 <Image source={icons.out} className="w-8 h-8" />
               </TouchableOpacity>
+            </View>
+
+            {/* Search Here */}
+            <GoogleTextInput
+              icon={icons.search}
+              containerStyle="bg-white shadow-md shadow-neutral-300"
+              handlePress={handleDestinationPress}
+            />
+
+            <View className="h-[330px] my-5">
+              <Map />
             </View>
           </>
         )}
