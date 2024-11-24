@@ -19,7 +19,7 @@ const RideCard = ({
   item: Ride;
 }) => {
   return (
-    <View className="p-4 rounded-lg bg-white shadow-sm shadow-neutral-300">
+    <View className="p-4 rounded-lg bg-white shadow-sm shadow-neutral-300 my-3">
       <View className="flex flex-row gap-x-10 items-center w-full py-4">
         <Image
           source={{

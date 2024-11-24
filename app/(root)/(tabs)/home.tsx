@@ -1,8 +1,16 @@
-import { View, Text, FlatList } from 'react-native';
+import {
+  View,
+  Text,
+  FlatList,
+  Image,
+  ActivityIndicator,
+  TouchableOpacity,
+} from 'react-native';
 import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { data } from '../../../constants/index';
+import { icons, images } from '../../../constants/index';
 import RideCard from '@/components/RideCard';
+import { useAuth, useUser } from '@clerk/clerk-expo';
 
 // basically your ride info from, to, driver, amount paid
 const rides = [
@@ -113,11 +121,46 @@ const rides = [
 ];
 
 const Home = () => {
+  const loading = true;
+  const { user } = useUser();
   return (
     <SafeAreaView className="bg-general-500">
       <FlatList
+        className="px-5"
+        keyboardShouldPersistTaps="handled"
+        contentContainerStyle={{ paddingBottom: 100 }}
         data={rides.slice(0, 5)}
         renderItem={({ item }) => <RideCard item={item} />}
+        ListEmptyComponent={() => (
+          <View className="flex flex-col items-center justify-center">
+            {!loading ? (
+              <Text>Empty</Text>
+            ) : loading ? (
+              <ActivityIndicator color="#000" className="py-3" />
+            ) : (
+              <>
+                <Image source={images.noResult} className="w-40 h-40" />
+
+                <Text>No recent rides found</Text>
+              </>
+            )}
+          </View>
+        )}
+        ListHeaderComponent={() => (
+          <>
+            <View className="flex flex-row items-center justify-between my-5">
+              <Text className="capitalize font-JakartaBold text-xl">
+                Welcome,{' '}
+                {user?.firstName ||
+                  user?.emailAddresses[0].emailAddress.split('@')[0]}{' '}
+              </Text>
+
+              <TouchableOpacity className="w-12 h-12 rounded-full p-5 bg-white flex flex-row items-center justify-center">
+                <Image source={icons.out} className="w-8 h-8" />
+              </TouchableOpacity>
+            </View>
+          </>
+        )}
       />
     </SafeAreaView>
   );
