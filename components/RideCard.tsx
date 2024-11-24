@@ -47,12 +47,29 @@ const RideCard = ({ item }: { item: Ride }) => {
           </Text>
         </View>
 
-        <View className="flex flex-row justify-between items-center border-white border-b py-5">
+        <View className="flex flex-row justify-between items-center border-white border-b py-3">
           <Text className="text-lg font-semibold font-Jakarta text-gray-500 text-[13px]">
-            Date & Time
+            Driver
           </Text>
           <Text className="text-lg font-semibold font-JakartaSemiBold text-[13px]">
-            16 July 2023, 10:30 PM
+            Jane Cooper
+          </Text>
+        </View>
+
+        <View className="flex flex-row justify-between items-center border-white border-b py-3">
+          <Text className="text-lg font-semibold font-Jakarta text-gray-500 text-[13px]">
+            Car Seats
+          </Text>
+          <Text className="text-lg font-semibold font-JakartaSemiBold text-[13px]">
+            4
+          </Text>
+        </View>
+        <View className="flex flex-row justify-between items-center border-white py-3">
+          <Text className="text-lg font-semibold font-Jakarta text-gray-500 text-[13px]">
+            Payment Status
+          </Text>
+          <Text className="text-lg font-semibold font-JakartaSemiBold text-[13px]">
+            Paid
           </Text>
         </View>
       </View>
