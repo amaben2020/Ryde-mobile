@@ -1,4 +1,3 @@
-import { View, Text } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import MapView, { Marker, PROVIDER_DEFAULT } from 'react-native-maps';
 import { useDriverStore, useLocationStore } from '@/store';
@@ -71,20 +70,43 @@ const Map = () => {
     destinationLongitude,
   });
 
-  // creating markers
+  // Function to simulate real-time movement
+  const updateDriverLocations = () => {
+    setMarkers((prevMarkers) =>
+      prevMarkers.map((marker) => {
+        // Small random movement to simulate driver movement
+        const latOffset = (Math.random() - 0.5) * 0.001; // smaller offset for smooth movement
+        const lngOffset = (Math.random() - 0.5) * 0.001;
+
+        return {
+          ...marker,
+          latitude: marker.latitude + latOffset,
+          longitude: marker.longitude + lngOffset,
+        };
+      })
+    );
+  };
+
+  // Initialize markers
   useEffect(() => {
     if (Array.isArray(drivers)) {
       if (!userLatitude || !userLongitude) return;
 
-      // if we have the user's location, create markers
-      const newMarkers = generateMarkersFromData({
+      // Create initial markers based on user's location
+      const initialMarkers = generateMarkersFromData({
         data: drivers,
         userLatitude,
         userLongitude,
       });
 
-      setMarkers(newMarkers);
+      setMarkers(initialMarkers);
     }
+  }, [userLatitude, userLongitude]);
+
+  // Simulate real-time updates with a timer (every 2 seconds)
+  useEffect(() => {
+    const interval = setInterval(updateDriverLocations, 1000); // Update every 2 seconds
+    return () => clearInterval(interval); // Cleanup on component unmount
   }, []);
 
   return (

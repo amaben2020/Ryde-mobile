@@ -11,11 +11,12 @@ import React, { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { icons, images } from '../../../constants/index';
 import RideCard from '@/components/RideCard';
-import { useAuth, useUser } from '@clerk/clerk-expo';
+import { useUser } from '@clerk/clerk-expo';
 import GoogleTextInput from '@/components/GoogleTextInput';
 import Map from '@/components/Map';
 import { useLocationStore } from '@/store';
 import * as Location from 'expo-location';
+import { useRouter } from 'expo-router';
 
 // basically your ride info from, to, driver, amount paid
 const rides = [
@@ -128,6 +129,7 @@ const rides = [
 const Home = () => {
   const loading = true;
   const { user } = useUser();
+  const router = useRouter();
 
   const { setUserLocation, setDestinationLocation, userLatitude } =
     useLocationStore();
@@ -138,8 +140,14 @@ const Home = () => {
     Alert.alert('Clicked');
   };
 
-  const handleDestinationPress = (data: any) => {
-    console.log(data);
+  const handleDestinationPress = (location: {
+    longitude: number;
+    latitude: number;
+    address: string;
+  }) => {
+    console.log(location);
+    setDestinationLocation(location);
+    router.push('/(root)/find-ride');
   };
 
   useEffect(() => {
