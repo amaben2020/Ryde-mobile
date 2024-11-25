@@ -1,23 +1,3 @@
-// import { View, Text } from 'react-native';
-// import React from 'react';
-// import CustomButton from './CustomButton';
-
-// const Payment = () => {
-//   const openPaymentSheet = () => {
-//     console.log('Clicked');
-//   };
-
-//   return (
-//     <CustomButton
-//       title="Payment"
-//       className="my-10"
-//       onPress={openPaymentSheet}
-//     />
-//   );
-// };
-
-// export default Payment;
-
 import { useAuth } from '@clerk/clerk-expo';
 import { useStripe } from '@stripe/stripe-react-native';
 import { router } from 'expo-router';

@@ -1,6 +1,5 @@
 import { useUser } from '@clerk/clerk-expo';
 import { Image, Text, View } from 'react-native';
-
 import RideLayout from '@/components/RideLayout';
 import { icons } from '@/constants';
 import { formatTime } from '@/lib/utils';
@@ -24,7 +23,7 @@ const BookRide = () => {
     >
       <RideLayout title="Book Ride">
         <>
-          <Text className="text-xl font-JakartaSemiBold mb-3">
+          <Text className="text-xl font-JakartaSemiBold mb-3 text-center">
             Ride Information
           </Text>
 
@@ -91,7 +90,13 @@ const BookRide = () => {
             </View>
           </View>
         </>
-        <Payment />
+        <Payment
+          fullName={user?.fullName!}
+          email={user?.emailAddresses[0].emailAddress!}
+          amount={driverDetails?.price!}
+          driverId={driverDetails?.id}
+          rideTime={driverDetails?.time!}
+        />
       </RideLayout>
     </StripeProvider>
   );
