@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import MapView, { Marker, PROVIDER_DEFAULT } from 'react-native-maps';
 import { useDriverStore, useLocationStore } from '@/store';
 import {
@@ -26,12 +26,19 @@ const Map = () => {
   const { selectedDriver, setSelectedDriver, setDrivers } = useDriverStore();
   const [markers, setMarkers] = useState<MarkerData[]>([]);
 
-  const region = calculateRegion({
-    userLongitude,
-    userLatitude,
-    destinationLatitude,
-    destinationLongitude,
-  });
+  const region =
+    userLongitude &&
+    userLatitude &&
+    useMemo(
+      () =>
+        calculateRegion({
+          userLongitude,
+          userLatitude,
+          destinationLatitude,
+          destinationLongitude,
+        }),
+      []
+    );
 
   // Function to simulate real-time movement
   const updateDriverLocations = () => {
@@ -53,13 +60,9 @@ const Map = () => {
   // Initialize markers
   useEffect(() => {
     if (!loading) {
-      console.log('DRIVERS', drivers);
-
-      setDrivers(drivers);
+      setDrivers(drivers!);
     }
     if (Array.isArray(drivers) && !loading) {
-      console.log(userLatitude);
-
       if (!userLatitude || !userLongitude) return;
 
       // Create initial markers based on user's location
@@ -92,10 +95,11 @@ const Map = () => {
         destinationLatitude,
         destinationLongitude,
       }).then((drivers) => {
+        console.log('INSIDE', drivers);
         setDrivers(drivers as MarkerData[]);
       });
     }
-  }, [destinationLatitude, destinationLongitude]);
+  }, [destinationLatitude, destinationLongitude, region]);
 
   if (loading || !userLatitude || !userLongitude) {
     return (
@@ -126,7 +130,7 @@ const Map = () => {
       userInterfaceStyle="light"
       initialRegion={region}
     >
-      {markers.map((marker) => (
+      {markers?.map((marker) => (
         <Marker
           key={marker.id}
           coordinate={{

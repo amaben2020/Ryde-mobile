@@ -35,6 +35,8 @@ export const calculateRegion = ({
   destinationLatitude?: number | null;
   destinationLongitude?: number | null;
 }) => {
+  console.log('userLatitude', userLatitude);
+  console.log('userLongitude', userLongitude);
   if (!userLatitude || !userLongitude) {
     return {
       latitude: 37.78825,
@@ -93,21 +95,14 @@ export const calculateDriverTimes = async ({
   )
     return;
 
-  console.log(
-    'markersuserLatitudeuserLongitude',
-    markers,
-    userLatitude,
-    userLongitude,
-    destinationLatitude,
-    destinationLongitude
-  );
-
   try {
     const timesPromises = markers.map(async (marker) => {
       const responseToUser = await fetch(
         `https://maps.googleapis.com/maps/api/directions/json?origin=${marker.latitude},${marker.longitude}&destination=${userLatitude},${userLongitude}&key=${directionsAPI}`
       );
       const dataToUser = await responseToUser.json();
+
+      console.log('dataToUser', dataToUser);
       const timeToUser = dataToUser.routes[0].legs[0].duration.value; // Time in seconds
 
       const responseToDestination = await fetch(
@@ -123,8 +118,6 @@ export const calculateDriverTimes = async ({
 
       return { ...marker, time: totalTime, price };
     });
-
-    console.log('timesPromises ===>', timesPromises);
 
     return await Promise.all(timesPromises);
   } catch (error) {
