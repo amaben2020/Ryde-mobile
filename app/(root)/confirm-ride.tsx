@@ -5,6 +5,7 @@ import { useDriverStore } from '@/store';
 import CustomButton from '@/components/CustomButton';
 import { router } from 'expo-router';
 import DriverCard from '@/components/DriverCard';
+import Payment from '@/components/Payment';
 
 const ConfirmRide = () => {
   const { drivers, selectedDriver, setSelectedDriver } = useDriverStore();
