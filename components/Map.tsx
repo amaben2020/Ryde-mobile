@@ -10,7 +10,6 @@ import { Driver, MarkerData } from '@/types/type';
 import { icons } from '@/constants';
 import { useFetch } from '@/lib/fetch';
 import { ActivityIndicator, Text, View } from 'react-native';
-import MapViewDirections from 'react-native-maps-directions';
 
 const Map = () => {
   const {
@@ -23,7 +22,7 @@ const Map = () => {
   const directionsAPI = '1162aa471c2bef83';
 
   const { data: drivers, loading, error } = useFetch<Driver[]>('/(api)/driver');
-  console.log('DRIVERS', drivers);
+
   const { selectedDriver, setSelectedDriver, setDrivers } = useDriverStore();
   const [markers, setMarkers] = useState<MarkerData[]>([]);
 
@@ -53,7 +52,14 @@ const Map = () => {
 
   // Initialize markers
   useEffect(() => {
-    if (Array.isArray(drivers)) {
+    if (!loading) {
+      console.log('DRIVERS', drivers);
+
+      setDrivers(drivers);
+    }
+    if (Array.isArray(drivers) && !loading) {
+      console.log(userLatitude);
+
       if (!userLatitude || !userLongitude) return;
 
       // Create initial markers based on user's location
@@ -67,10 +73,6 @@ const Map = () => {
     }
   }, [userLatitude, userLongitude, drivers]);
 
-  useEffect(() => {
-    setDrivers(drivers);
-  }, []);
-
   // Simulate real-time updates with a timer (every 2 seconds)
   useEffect(() => {
     const interval = setInterval(updateDriverLocations, 1000); // Update every 2 seconds
@@ -78,9 +80,13 @@ const Map = () => {
   }, []);
 
   useEffect(() => {
-    if (markers.length > 0 && destinationLatitude && destinationLongitude) {
+    if (
+      markers.length > 0 &&
+      destinationLatitude !== undefined &&
+      destinationLongitude !== undefined
+    ) {
       calculateDriverTimes({
-        markers, //  the cars for drivers
+        markers,
         userLatitude,
         userLongitude,
         destinationLatitude,
@@ -89,7 +95,7 @@ const Map = () => {
         setDrivers(drivers as MarkerData[]);
       });
     }
-  }, [markers, destinationLatitude, destinationLongitude]);
+  }, [destinationLatitude, destinationLongitude]);
 
   if (loading || !userLatitude || !userLongitude) {
     return (

@@ -93,6 +93,15 @@ export const calculateDriverTimes = async ({
   )
     return;
 
+  console.log(
+    'markersuserLatitudeuserLongitude',
+    markers,
+    userLatitude,
+    userLongitude,
+    destinationLatitude,
+    destinationLongitude
+  );
+
   try {
     const timesPromises = markers.map(async (marker) => {
       const responseToUser = await fetch(
@@ -105,6 +114,7 @@ export const calculateDriverTimes = async ({
         `https://maps.googleapis.com/maps/api/directions/json?origin=${userLatitude},${userLongitude}&destination=${destinationLatitude},${destinationLongitude}&key=${directionsAPI}`
       );
       const dataToDestination = await responseToDestination.json();
+
       const timeToDestination =
         dataToDestination.routes[0].legs[0].duration.value; // Time in seconds
 
@@ -113,6 +123,8 @@ export const calculateDriverTimes = async ({
 
       return { ...marker, time: totalTime, price };
     });
+
+    console.log('timesPromises ===>', timesPromises);
 
     return await Promise.all(timesPromises);
   } catch (error) {

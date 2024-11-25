@@ -35,6 +35,7 @@ const Layout = () => {
     <Tabs
       initialRouteName="home"
       screenOptions={{
+        headerShown: false,
         tabBarActiveTintColor: 'white',
         tabBarInactiveTintColor: 'white',
         tabBarShowLabel: false,
