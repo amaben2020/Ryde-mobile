@@ -227,7 +227,7 @@ const Home = () => {
               handlePress={handleDestinationPress}
             />
 
-            <View className="h-[330px] my-5">
+            <View className="h-[330px] my-5" style={{ borderRadius: 20 }}>
               <Map />
             </View>
           </>

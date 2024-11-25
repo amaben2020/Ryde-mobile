@@ -16,6 +16,7 @@ const drivers = [
       'https://ucarecdn.com/a2dc52b2-8bf7-4e49-9a36-3ffb5229ed02/-/preview/465x466/',
     car_seats: 4,
     rating: '4.80',
+    price: '1122.21',
   },
   {
     id: '2',
@@ -27,6 +28,7 @@ const drivers = [
       'https://ucarecdn.com/a3872f80-c094-409c-82f8-c9ff38429327/-/preview/930x932/',
     car_seats: 5,
     rating: '4.60',
+    price: '12.00',
   },
   {
     id: '3',
@@ -38,6 +40,7 @@ const drivers = [
       'https://ucarecdn.com/289764fb-55b6-4427-b1d1-f655987b4a14/-/preview/930x932/',
     car_seats: 4,
     rating: '4.70',
+    price: '13.50',
   },
   {
     id: '4',
@@ -49,6 +52,7 @@ const drivers = [
       'https://ucarecdn.com/b6fb3b55-7676-4ff3-8484-fb115e268d32/-/preview/930x932/',
     car_seats: 4,
     rating: '4.90',
+    price: '123.00',
   },
 ];
 
@@ -60,7 +64,7 @@ const Map = () => {
     destinationLongitude,
   } = useLocationStore();
 
-  const { selectedDriver, setSelectedDriver } = useDriverStore();
+  const { selectedDriver, setSelectedDriver, setDrivers } = useDriverStore();
   const [markers, setMarkers] = useState<MarkerData[]>([]);
 
   const region = calculateRegion({
@@ -109,9 +113,13 @@ const Map = () => {
     return () => clearInterval(interval); // Cleanup on component unmount
   }, []);
 
+  useEffect(() => {
+    setDrivers(drivers);
+  }, []);
+
   return (
     <MapView
-      style={{ width: '100%', height: '100%', borderRadius: 20 }}
+      style={{ width: '100%', height: '100%' }}
       provider={PROVIDER_DEFAULT}
       tintColor="black"
       mapType="mutedStandard"
