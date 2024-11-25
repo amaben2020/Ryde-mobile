@@ -4,7 +4,7 @@ import { icons, images } from '@/constants';
 import InputField from '@/components/InputField';
 import CustomButton from '@/components/CustomButton';
 import { useSignUp } from '@clerk/clerk-expo';
-import { useRouter } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
 import ReactNativeModal from 'react-native-modal';
 import { fetchAPI } from '@/lib/fetch';
 
@@ -144,6 +144,18 @@ const Signup = () => {
             )}
             textVariant="primary"
           />
+
+          <View className="flex flex-row space-x-6 gap-3 ">
+            <Text className="text-[17px] text-gray-500 font-JakartaMedium">
+              Already have an account?
+            </Text>{' '}
+            <Link
+              href="/(auth)/sign-in"
+              className="font-JakartaBold text-[17px] text-blue-600"
+            >
+              Sign in
+            </Link>
+          </View>
         </View>
       </View>
       <ReactNativeModal isVisible={showSuccessModal}>

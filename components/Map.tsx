@@ -129,6 +129,7 @@ const Map = () => {
       showsUserLocation={true}
       userInterfaceStyle="light"
       initialRegion={region}
+      zoomTapEnabled={true}
     >
       {markers?.map((marker) => (
         <Marker

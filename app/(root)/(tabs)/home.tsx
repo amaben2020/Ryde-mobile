@@ -131,6 +131,8 @@ const Home = () => {
   const { user } = useUser();
   const router = useRouter();
 
+  const { isSignedIn, sessionId } = useAuth();
+
   const { setUserLocation, setDestinationLocation, userLatitude } =
     useLocationStore();
 
@@ -138,9 +140,13 @@ const Home = () => {
 
   const [hasPermission, setHasPermission] = useState(true);
 
-  const handleSignOut = () => {
-    signOut();
+  const handleSignOut = async () => {
+    await signOut();
   };
+
+  useEffect(() => {
+    if (!isSignedIn && !sessionId) router.push('/(auth)/sign-in');
+  }, [isSignedIn]);
 
   const handleDestinationPress = (location: {
     longitude: number;
