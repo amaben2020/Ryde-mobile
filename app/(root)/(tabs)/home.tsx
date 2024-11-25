@@ -11,7 +11,7 @@ import React, { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { icons, images } from '../../../constants/index';
 import RideCard from '@/components/RideCard';
-import { useUser } from '@clerk/clerk-expo';
+import { useAuth, useUser } from '@clerk/clerk-expo';
 import GoogleTextInput from '@/components/GoogleTextInput';
 import Map from '@/components/Map';
 import { useLocationStore } from '@/store';
@@ -134,10 +134,12 @@ const Home = () => {
   const { setUserLocation, setDestinationLocation, userLatitude } =
     useLocationStore();
 
+  const { signOut } = useAuth();
+
   const [hasPermission, setHasPermission] = useState(true);
 
   const handleSignOut = () => {
-    Alert.alert('Clicked');
+    signOut();
   };
 
   const handleDestinationPress = (location: {

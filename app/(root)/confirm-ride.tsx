@@ -9,7 +9,7 @@ import Payment from '@/components/Payment';
 
 const ConfirmRide = () => {
   const { drivers, selectedDriver, setSelectedDriver } = useDriverStore();
-
+  console.log(drivers);
   return (
     <RideLayout title={'Choose a driver'} snapPoints={['65%', '85%']}>
       <FlatList
