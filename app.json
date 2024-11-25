@@ -41,6 +41,12 @@
           "image": "./assets/images/splash.png",
           "resizeMode": "contain"
         }
+      ],
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow Ryde to use your location."
+        }
       ]
     ],
     "experiments": {

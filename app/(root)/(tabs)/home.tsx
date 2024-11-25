@@ -7,13 +7,15 @@ import {
   TouchableOpacity,
   Alert,
 } from 'react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { icons, images } from '../../../constants/index';
 import RideCard from '@/components/RideCard';
 import { useAuth, useUser } from '@clerk/clerk-expo';
 import GoogleTextInput from '@/components/GoogleTextInput';
 import Map from '@/components/Map';
+import { useLocationStore } from '@/store';
+import * as Location from 'expo-location';
 
 // basically your ride info from, to, driver, amount paid
 const rides = [
@@ -127,13 +129,48 @@ const Home = () => {
   const loading = true;
   const { user } = useUser();
 
+  const { setUserLocation, setDestinationLocation, userLatitude } =
+    useLocationStore();
+
+  const [hasPermission, setHasPermission] = useState(true);
+
   const handleSignOut = () => {
     Alert.alert('Clicked');
   };
 
-  const handleDestinationPress = (data) => {
+  const handleDestinationPress = (data: any) => {
     console.log(data);
   };
+
+  useEffect(() => {
+    const requestLocation = async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+
+      if (status !== 'granted') {
+        setHasPermission(false);
+
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync();
+      console.log('location', location);
+
+      const address = await Location.reverseGeocodeAsync({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+      });
+
+      console.log(address);
+
+      setUserLocation({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+        address: `${address[0].name}, ${address[0].region}`,
+      });
+    };
+
+    requestLocation();
+  }, []);
 
   return (
     <SafeAreaView className="bg-general-500">
