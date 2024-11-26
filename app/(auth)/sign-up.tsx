@@ -7,6 +7,7 @@ import { useSignUp } from '@clerk/clerk-expo';
 import { Link, useRouter } from 'expo-router';
 import ReactNativeModal from 'react-native-modal';
 import { fetchAPI } from '@/lib/fetch';
+import SignInWithOAuth from '@/components/Auth';
 
 const Signup = () => {
   const [form, setForm] = useState({
@@ -23,8 +24,6 @@ const Signup = () => {
     error: '',
     code: '',
   });
-
-  const handleGoogleSignIn = () => {};
 
   const onSignUpPress = async () => {
     if (!isLoaded) {
@@ -55,21 +54,23 @@ const Signup = () => {
         code: String(verification.code),
       });
 
+      console.log(completeSignUp);
+
       if (completeSignUp.status === 'complete') {
         await setActive({ session: completeSignUp.createdSessionId });
         setVerification({ ...verification, state: 'success' });
 
-        await fetchAPI('/user', {
+        const user = await fetchAPI('/user', {
           method: 'POST',
           body: JSON.stringify({
-            clerkId: completeSignUp.createdUserId,
+            clerkId: completeSignUp?.createdUserId,
             name: form.name,
             email: form.email,
           }),
         });
-
+        console.log('USER', user);
         // after all is said and done
-        setShowSuccessModal(true);
+        // setShowSuccessModal(true);
       }
     } catch (err: any) {
       console.error(JSON.stringify(err, null, 2));
@@ -120,7 +121,7 @@ const Signup = () => {
         />
       </View>
       <View>
-        <View className="flex flex-col space-y-5 gap-y-7 justify-center items-center mt-4 gap-x-3 w-10/12 item-center mx-auto">
+        <View className="flex flex-col space-y-5 gap-y-4 justify-center items-center mt-4 gap-x-3 w-10/12 item-center mx-auto">
           <CustomButton title="Sign up" onPress={onSignUpPress} />
 
           <View className="flex flex-row items-center">
@@ -131,19 +132,8 @@ const Signup = () => {
             <View className="flex-1 h-[1px] bg-general-100" />
           </View>
 
-          <CustomButton
-            title="Sign up"
-            onPress={handleGoogleSignIn}
-            bgVariant="outline"
-            IconLeft={() => (
-              <Image
-                source={icons.google}
-                resizeMode="contain"
-                className="w-5 h-5 mx-2"
-              />
-            )}
-            textVariant="primary"
-          />
+          <SignInWithOAuth strategy={'oauth_apple'} />
+          <SignInWithOAuth strategy={'oauth_google'} />
 
           <View className="flex flex-row space-x-6 gap-3 ">
             <Text className="text-[17px] text-gray-500 font-JakartaMedium">

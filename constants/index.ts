@@ -7,6 +7,7 @@ import close from '@/assets/icons/close.png';
 import dollar from '@/assets/icons/dollar.png';
 import email from '@/assets/icons/email.png';
 import eyecross from '@/assets/icons/eyecross.png';
+import apple from '@/assets/icons/apple.png';
 import google from '@/assets/icons/google.png';
 import home from '@/assets/icons/home.png';
 import list from '@/assets/icons/list.png';
@@ -44,6 +45,7 @@ export const images = {
 };
 
 export const icons = {
+  apple,
   arrowDown,
   arrowUp,
   backArrow,

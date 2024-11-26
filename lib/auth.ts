@@ -1,6 +1,7 @@
 import * as SecureStore from 'expo-secure-store';
 import Linking from 'expo-linking';
 import { fetchAPI } from './fetch';
+import { useOAuth } from '@clerk/clerk-expo';
 
 export const tokenCache = {
   async getToken(key: string) {
@@ -29,9 +30,12 @@ export const tokenCache = {
 
 export const googleOAuth = async (startOAuthFlow: any) => {
   try {
-    const { createdSessionId, setActive, signUp } = await startOAuthFlow({
-      redirectUrl: Linking.createURL('/(root)/(tabs)/home'),
-    });
+    const { createdSessionId, setActive, signUp, signIn } =
+      await startOAuthFlow({
+        redirectUrl: Linking.createURL('/(root)/(tabs)/home'),
+      });
+
+    console.log('SIN', signIn);
 
     if (createdSessionId) {
       if (setActive) {

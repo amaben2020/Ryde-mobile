@@ -3,9 +3,11 @@ import React, { useEffect, useState } from 'react';
 import { icons, images } from '@/constants';
 import InputField from '@/components/InputField';
 import CustomButton from '@/components/CustomButton';
-import { useAuth, useSignIn, useUser } from '@clerk/clerk-expo';
-import { useRouter } from 'expo-router';
+import { useAuth, useOAuth, useSignIn, useUser } from '@clerk/clerk-expo';
+import { Link, useRouter } from 'expo-router';
 import ReactNativeModal from 'react-native-modal';
+import { googleOAuth } from '@/lib/auth';
+import SignInWithOAuth from '@/components/Auth';
 
 const SignIn = () => {
   const [form, setForm] = useState({
@@ -18,9 +20,9 @@ const SignIn = () => {
   const router = useRouter();
   const { isSignedIn, sessionId } = useAuth();
 
-  const { user } = useUser();
+  const { startOAuthFlow } = useOAuth({ strategy: 'oauth_google' });
 
-  const handleGoogleSignIn = () => {};
+  const { user } = useUser();
 
   const onSignInPress = async () => {
     if (!isLoaded) {
@@ -90,19 +92,20 @@ const SignIn = () => {
             <View className="flex-1 h-[1px] bg-general-100" />
           </View>
 
-          <CustomButton
-            title="Sign in"
-            onPress={handleGoogleSignIn}
-            bgVariant="outline"
-            IconLeft={() => (
-              <Image
-                source={icons.google}
-                resizeMode="contain"
-                className="w-5 h-5 mx-2"
-              />
-            )}
-            textVariant="primary"
-          />
+          <SignInWithOAuth strategy={'oauth_apple'} />
+          <SignInWithOAuth strategy={'oauth_google'} />
+        </View>
+
+        <View className="flex flex-row space-x-6 gap-3 mt-10 justify-center">
+          <Text className="text-[17px] text-gray-500 font-JakartaMedium">
+            Don't have an account?
+          </Text>{' '}
+          <Link
+            href="/(auth)/sign-up"
+            className="font-JakartaBold text-[17px] text-blue-600"
+          >
+            Sign up
+          </Link>
         </View>
       </View>
       {!sessionId && (
