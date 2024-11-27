@@ -14,13 +14,18 @@
       "resizeMode": "contain"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.algomachine.ryde"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/splash.png",
         "backgroundColor": "#2F80ED"
-      }
+      },
+      "permissions": [
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION"
+      ]
     },
     "web": {
       "bundler": "metro",
@@ -51,6 +56,14 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": "https://ryde.com/"
+      },
+      "eas": {
+        "projectId": "a694a559-07ea-43c4-a3a4-e3934cd920e1"
+      }
     }
   }
 }

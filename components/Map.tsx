@@ -1,5 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import MapView, { Marker, PROVIDER_DEFAULT } from 'react-native-maps';
+import MapView, {
+  Marker,
+  PROVIDER_DEFAULT,
+  PROVIDER_GOOGLE,
+} from 'react-native-maps';
 import { useDriverStore, useLocationStore } from '@/store';
 import {
   calculateDriverTimes,
@@ -9,7 +13,7 @@ import {
 import { Driver, MarkerData } from '@/types/type';
 import { icons } from '@/constants';
 import { useFetch } from '@/lib/fetch';
-import { ActivityIndicator, Text, View } from 'react-native';
+import { ActivityIndicator, Text, View, Platform } from 'react-native';
 
 const Map = () => {
   const {
@@ -60,6 +64,7 @@ const Map = () => {
   // Initialize markers
   useEffect(() => {
     if (!loading) {
+      //@ts-ignore
       setDrivers(drivers!);
     }
     if (Array.isArray(drivers) && !loading) {
@@ -122,13 +127,22 @@ const Map = () => {
   return (
     <MapView
       style={{ width: '100%', height: '100%' }}
-      provider={PROVIDER_DEFAULT}
+      provider={Platform.OS === 'android' ? PROVIDER_GOOGLE : PROVIDER_DEFAULT}
       tintColor="black"
-      mapType="mutedStandard"
+      mapType={Platform.OS === 'android' ? 'standard' : 'mutedStandard'}
       showsPointsOfInterest={false}
       showsUserLocation={true}
       userInterfaceStyle="light"
-      initialRegion={region!}
+      initialRegion={
+        region
+          ? region
+          : {
+              latitude: 0,
+              longitude: 0,
+              latitudeDelta: 0,
+              longitudeDelta: 0,
+            }
+      }
       zoomTapEnabled={true}
     >
       {markers?.map((marker) => (
