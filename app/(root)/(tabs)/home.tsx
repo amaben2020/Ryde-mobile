@@ -78,7 +78,7 @@ const Home = () => {
     requestLocation();
   }, []);
 
-  const { data: rides, loading } = useFetch('/(api)/ride/rides');
+  const { data: rides, loading } = useFetch(`/(api)/ride/${user?.id}`);
 
   return (
     <SafeAreaView className="bg-general-500">
@@ -90,9 +90,7 @@ const Home = () => {
         renderItem={({ item }) => <RideCard item={item} />}
         ListEmptyComponent={() => (
           <View className="flex flex-col items-center justify-center">
-            {!loading ? (
-              <Text>Empty</Text>
-            ) : loading ? (
+            {loading ? (
               <ActivityIndicator color="#000" className="py-3" />
             ) : (
               <>

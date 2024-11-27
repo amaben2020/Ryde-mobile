@@ -33,6 +33,7 @@ const Payment = ({
   } = useLocationStore();
 
   const { userId } = useAuth();
+
   const [success, setSuccess] = useState<boolean>(false);
 
   const openPaymentSheet = async () => {

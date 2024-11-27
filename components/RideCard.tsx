@@ -3,6 +3,7 @@ import React from 'react';
 import { Ride } from '@/types/type';
 import { icons } from '@/constants';
 import { formatDate, formatTime } from '@/lib/utils';
+import clsx from 'clsx';
 
 const RideCard = ({ item }: { item: Ride }) => {
   return (
@@ -68,7 +69,12 @@ const RideCard = ({ item }: { item: Ride }) => {
           <Text className="text-lg font-semibold font-Jakarta text-gray-500 text-[13px]">
             Payment Status
           </Text>
-          <Text className="text-lg font-semibold font-JakartaSemiBold text-[13px]">
+          <Text
+            className={clsx(
+              item?.payment_status === 'paid' && 'text-green-600 capitalize',
+              'text-lg font-semibold font-JakartaSemiBold text-[13px]'
+            )}
+          >
             {item?.payment_status}
           </Text>
         </View>

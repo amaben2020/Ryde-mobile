@@ -1,7 +1,7 @@
 import { icons } from '@/constants';
 import { Tabs } from 'expo-router';
 import React from 'react';
-import { Image, ImageSourcePropType, View } from 'react-native';
+import { Image, ImageSourcePropType, Platform, View } from 'react-native';
 
 const TabIcon = ({
   source,
@@ -11,6 +11,17 @@ const TabIcon = ({
   focused: boolean;
 }) => (
   <View
+    style={
+      Platform.OS === 'android'
+        ? {
+            alignItems: 'center',
+            display: 'flex',
+            flexDirection: 'row',
+            marginBottom: 30,
+            borderRadius: 24,
+          }
+        : {}
+    }
     className={`flex flex-row justify-center items-center rounded-full ${
       focused ? 'bg-general-400' : ''
     }`}
