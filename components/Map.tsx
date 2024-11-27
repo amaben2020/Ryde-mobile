@@ -133,6 +133,7 @@ const Map = () => {
       showsPointsOfInterest={false}
       showsUserLocation={true}
       userInterfaceStyle="light"
+      //@ts-ignore
       initialRegion={region!}
       zoomTapEnabled={true}
     >

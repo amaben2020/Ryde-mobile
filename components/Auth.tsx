@@ -17,8 +17,10 @@ export const useWarmUpBrowser = () => {
 
 const SignInWithOAuth = ({
   strategy,
+  buttonText = 'Sign in',
 }: {
   strategy: 'oauth_google' | 'oauth_apple';
+  buttonText?: 'Sign in' | 'Sign up';
 }) => {
   useWarmUpBrowser();
 

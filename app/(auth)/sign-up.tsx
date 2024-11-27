@@ -132,8 +132,8 @@ const Signup = () => {
             <View className="flex-1 h-[1px] bg-general-100" />
           </View>
 
-          <SignInWithOAuth strategy={'oauth_apple'} />
-          <SignInWithOAuth strategy={'oauth_google'} />
+          <SignInWithOAuth buttonText="Sign up" strategy={'oauth_apple'} />
+          <SignInWithOAuth buttonText="Sign up" strategy={'oauth_google'} />
 
           <View className="flex flex-row space-x-6 gap-3 ">
             <Text className="text-[17px] text-gray-500 font-JakartaMedium">
