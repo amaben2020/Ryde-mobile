@@ -4,26 +4,13 @@ import { Ride } from '@/types/type';
 import { icons } from '@/constants';
 import { formatDate, formatTime } from '@/lib/utils';
 
-const RideCard = ({
-  item: {
-    destination_address,
-    destination_latitude,
-    destination_longitude,
-    driver,
-    origin_address,
-    payment_status,
-    created_at,
-    ride_time,
-  },
-}: {
-  item: Ride;
-}) => {
+const RideCard = ({ item }: { item: Ride }) => {
   return (
     <View className="py-3 px-4 rounded-lg bg-white shadow-sm shadow-neutral-300 my-3">
       <View className="flex flex-row gap-x-10 items-center w-full py-4">
         <Image
           source={{
-            uri: `https://maps.geoapify.com/v1/staticmap?style=osm-bright&width=600&height=400&center=lonlat:${destination_longitude},${destination_latitude}&zoom=14&apiKey=${process.env.EXPO_PUBLIC_GEOAPIFY_API_KEY}`,
+            uri: `https://maps.geoapify.com/v1/staticmap?style=osm-bright&width=600&height=400&center=lonlat:${item?.destination_longitude},${item?.destination_latitude}&zoom=14&apiKey=${process.env.EXPO_PUBLIC_GEOAPIFY_API_KEY}`,
           }}
           className="h-[90px] w-[80px] rounded-[10px]"
         />
@@ -35,7 +22,7 @@ const RideCard = ({
               className="h-[24px] w-[24px] rounded-[10px]"
             />
             <Text className="font-Jakarta font-medium text-[13px]">
-              {origin_address}
+              {item?.origin_address}
             </Text>
           </View>
           <View className="flex flex-row gap-x-5 items-center">
@@ -44,7 +31,7 @@ const RideCard = ({
               className="h-[24px] w-[24px] rounded-[10px]"
             />
             <Text className="font-Jakarta font-medium text-[13px]">
-              {destination_address}
+              {item?.destination_address ?? ''}
             </Text>
           </View>
         </View>
@@ -56,7 +43,7 @@ const RideCard = ({
             Date & Time
           </Text>
           <Text className="text-lg font-semibold font-JakartaSemiBold text-[13px]">
-            {formatDate(created_at)}, {formatTime(ride_time)}
+            {formatDate(item?.created_at)}, {formatTime(item?.ride_time)}
           </Text>
         </View>
 
@@ -65,7 +52,7 @@ const RideCard = ({
             Driver
           </Text>
           <Text className="text-lg font-semibold font-JakartaSemiBold text-[13px]">
-            {driver?.first_name} {driver?.last_name}
+            {item?.driver?.first_name} {item?.driver?.last_name}
           </Text>
         </View>
 
@@ -74,7 +61,7 @@ const RideCard = ({
             Car Seats
           </Text>
           <Text className="text-lg font-semibold font-JakartaSemiBold text-[13px]">
-            {driver.car_seats}
+            {item?.driver.car_seats}
           </Text>
         </View>
         <View className="flex flex-row justify-between items-center border-white py-3">
@@ -82,7 +69,7 @@ const RideCard = ({
             Payment Status
           </Text>
           <Text className="text-lg font-semibold font-JakartaSemiBold text-[13px]">
-            {payment_status}
+            {item?.payment_status}
           </Text>
         </View>
       </View>

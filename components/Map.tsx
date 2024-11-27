@@ -133,16 +133,7 @@ const Map = () => {
       showsPointsOfInterest={false}
       showsUserLocation={true}
       userInterfaceStyle="light"
-      initialRegion={
-        region
-          ? region
-          : {
-              latitude: 0,
-              longitude: 0,
-              latitudeDelta: 0,
-              longitudeDelta: 0,
-            }
-      }
+      initialRegion={region!}
       zoomTapEnabled={true}
     >
       {markers?.map((marker) => (

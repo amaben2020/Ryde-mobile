@@ -18,6 +18,10 @@ const Payment = ({
   driverId,
   rideTime,
 }: PaymentProps) => {
+  rideTime = 20;
+  amount = '200';
+  console.log(driverId);
+
   const { initPaymentSheet, presentPaymentSheet } = useStripe();
   const {
     userAddress,

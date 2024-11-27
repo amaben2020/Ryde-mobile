@@ -21,7 +21,7 @@ const Rides = () => {
     <SafeAreaView className="flex-1 bg-white">
       <FlatList
         data={recentRides}
-        renderItem={({ item }) => <RideCard ride={item} />}
+        renderItem={({ item }) => <RideCard item={item} />}
         keyExtractor={(item, index) => index.toString()}
         className="px-5"
         keyboardShouldPersistTaps="handled"
