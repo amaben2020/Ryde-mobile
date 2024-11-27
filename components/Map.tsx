@@ -128,7 +128,7 @@ const Map = () => {
       showsPointsOfInterest={false}
       showsUserLocation={true}
       userInterfaceStyle="light"
-      initialRegion={region}
+      initialRegion={region!}
       zoomTapEnabled={true}
     >
       {markers?.map((marker) => (

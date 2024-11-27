@@ -12,8 +12,8 @@ export const generateMarkersFromData = ({
   userLongitude: number;
 }): MarkerData[] => {
   return data.map((driver) => {
-    const latOffset = (Math.random() - 0.5) * 0.01; // Random offset between -0.005 and 0.005
-    const lngOffset = (Math.random() - 0.5) * 0.01; // Random offset between -0.005 and 0.005
+    const latOffset = (Math.random() - 0.5) * 0.01;
+    const lngOffset = (Math.random() - 0.5) * 0.01;
 
     return {
       latitude: userLatitude + latOffset,
@@ -74,6 +74,7 @@ export const calculateRegion = ({
   };
 };
 
+// marker means the driver
 export const calculateDriverTimes = async ({
   markers,
   userLatitude,
@@ -103,7 +104,7 @@ export const calculateDriverTimes = async ({
       const dataToUser = await responseToUser.json();
 
       console.log('dataToUser', dataToUser);
-      const timeToUser = dataToUser.routes[0].legs[0].duration.value; // Time in seconds
+      const timeToUser = dataToUser.routes[0].legs[0].duration.value;
 
       const responseToDestination = await fetch(
         `https://maps.googleapis.com/maps/api/directions/json?origin=${userLatitude},${userLongitude}&destination=${destinationLatitude},${destinationLongitude}&key=${directionsAPI}`
@@ -111,10 +112,10 @@ export const calculateDriverTimes = async ({
       const dataToDestination = await responseToDestination.json();
 
       const timeToDestination =
-        dataToDestination.routes[0].legs[0].duration.value; // Time in seconds
+        dataToDestination.routes[0].legs[0].duration.value;
 
-      const totalTime = (timeToUser + timeToDestination) / 60; // Total time in minutes
-      const price = (totalTime * 0.5).toFixed(2); // Calculate price based on time
+      const totalTime = (timeToUser + timeToDestination) / 60;
+      const price = (totalTime * 0.5).toFixed(2);
 
       return { ...marker, time: totalTime, price };
     });
