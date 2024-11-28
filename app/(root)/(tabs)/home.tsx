@@ -37,7 +37,6 @@ const Home = () => {
   const handleSignOut = async () => {
     await signOut();
   };
-
   useEffect(() => {
     if (!isSignedIn && !sessionId) router.push('/(auth)/sign-in');
   }, [isSignedIn]);
