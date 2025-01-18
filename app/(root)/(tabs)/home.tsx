@@ -1,137 +1,65 @@
-import {
-  View,
-  Text,
-  FlatList,
-  Image,
-  ActivityIndicator,
-  TouchableOpacity,
-  Alert,
-} from 'react-native';
-import React, { useEffect, useState } from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { icons, images } from '../../../constants/index';
-import RideCard from '@/components/RideCard';
-import { useAuth, useUser } from '@clerk/clerk-expo';
-import GoogleTextInput from '@/components/GoogleTextInput';
-import Map from '@/components/Map';
-import { useLocationStore } from '@/store';
-import * as Location from 'expo-location';
-import { useRouter } from 'expo-router';
-import { useFetch } from '@/lib/fetch';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import Picker from '@wave909/react-native-ios-scroll-picker';
+import HapticFeedback from 'react-native-haptic-feedback';
 
-// basically your ride info from, to, driver, amount paid
+HapticFeedback.trigger('impactMedium');
+
+const start = 2000;
+const years = new Array(new Date().getFullYear() - start + 1)
+  .fill(0)
+  .map((_, i) => {
+    const value = start + i;
+    return { value, label: value };
+  })
+  .reverse();
 
 const Home = () => {
-  const { user } = useUser();
-  const router = useRouter();
+  const defaultValue = 2010;
+  const [currentValue, setCurrentValue] = useState(defaultValue);
 
-  const { isSignedIn, sessionId } = useAuth();
-
-  const { setUserLocation, setDestinationLocation, userLatitude } =
-    useLocationStore();
-
-  const { signOut } = useAuth();
-
-  const [hasPermission, setHasPermission] = useState(true);
-
-  const handleSignOut = async () => {
-    await signOut();
+  const handelPickerItemChange = (value) => {
+    setCurrentValue(value);
   };
-  useEffect(() => {
-    if (!isSignedIn && !sessionId) router.push('/(auth)/sign-in');
-  }, [isSignedIn]);
-
-  const handleDestinationPress = (location: {
-    longitude: number;
-    latitude: number;
-    address: string;
-  }) => {
-    setDestinationLocation(location);
-    router.push('/(root)/find-ride');
-  };
-
-  useEffect(() => {
-    const requestLocation = async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-
-      if (status !== 'granted') {
-        setHasPermission(false);
-
-        return;
-      }
-
-      let location = await Location.getCurrentPositionAsync();
-
-      const address = await Location.reverseGeocodeAsync({
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude,
-      });
-
-      setUserLocation({
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude,
-        address: `${address[0].name}, ${address[0].region}`,
-      });
-    };
-
-    requestLocation();
-  }, []);
-
-  const { data: rides, loading } = useFetch(`/(api)/ride/${user?.id}`);
 
   return (
-    <SafeAreaView className="bg-general-500">
-      <FlatList
-        className="px-5"
-        keyboardShouldPersistTaps="handled"
-        contentContainerStyle={{ paddingBottom: 100 }}
-        data={Array.isArray(rides) ? rides.slice(0, 5) : []}
-        renderItem={({ item }) => <RideCard item={item} />}
-        ListEmptyComponent={() => (
-          <View className="flex flex-col items-center justify-center">
-            {loading ? (
-              <ActivityIndicator color="#000" className="py-3" />
-            ) : (
-              <>
-                <Image source={images.noResult} className="w-40 h-40" />
-
-                <Text>No recent rides found</Text>
-              </>
-            )}
-          </View>
-        )}
-        ListHeaderComponent={() => (
-          <>
-            <View className="flex flex-row items-center justify-between my-5">
-              <Text className="capitalize font-JakartaBold text-xl">
-                Welcome,{' '}
-                {user?.firstName ||
-                  user?.emailAddresses[0].emailAddress.split('@')[0]}{' '}
-              </Text>
-
-              <TouchableOpacity
-                onPress={handleSignOut}
-                className="w-12 h-12 rounded-full p-5 bg-white flex flex-row items-center justify-center"
-              >
-                <Image source={icons.out} className="w-8 h-8" />
-              </TouchableOpacity>
-            </View>
-
-            {/* Search Here */}
-            <GoogleTextInput
-              icon={icons.search}
-              containerStyle="bg-white shadow-md shadow-neutral-300"
-              handlePress={handleDestinationPress}
-            />
-
-            <View className="h-[330px] my-5" style={{ borderRadius: 20 }}>
-              <Map />
-            </View>
-          </>
-        )}
+    <View style={styles.pickerContainer}>
+      <Picker
+        values={years}
+        defaultValue={defaultValue}
+        withTranslateZ={true}
+        withOpacity={true}
+        withScale={true}
+        visibleItems={5}
+        itemHeight={32}
+        containerStyle={styles.containerStyle}
+        dividerStyle={styles.pickerDivider}
+        labelStyle={styles.pickerItemLabel}
+        onChange={handelPickerItemChange}
       />
-    </SafeAreaView>
+
+      <Text>{currentValue}</Text>
+    </View>
   );
 };
-
 export default Home;
+const styles = StyleSheet.create({
+  pickerContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  containerStyle: {
+    width: 120,
+  },
+  pickerDivider: {
+    borderColor: 'rgba(0,0,0,0.1)',
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+  },
+  pickerItemLabel: {
+    color: '#000000',
+    fontSize: 25,
+  },
+});
